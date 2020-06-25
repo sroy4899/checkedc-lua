@@ -1,14 +1,7 @@
-# Checked C Lua Conversion
-This repository is dedicated to the testing of the Checked-C conversion tool available [here](https://github.com/plum-umd/checkedc-clang/tree/BigRefactor). 
+# Checked C Lua Conversion Benchmark
 
-This repository contains several branches. This branch (**master**) will have C code and relevant documentation.   
+This branch is out-of-the-box C Code from Lua. In order to perform regression testing, please do the following:
 
-[Baseline](https://github.com/sroy4899/checkedc-lua/tree/baseline) represents this same C Code, but refactored in order to mimic the structure of [a similar repo for testing vsftpd](https://github.com/plum-umd/checkedc-eval-vsftpd/blob/re-port/README.md). It includes scripts for running the conversion tool and replacing the converted files. 
+1. Change the paths in `convert_all.sh` to match the location of the conversion tool on your machine. Also update the paths in `update_database.py`, `replace.py`, and `diff.py`.
 
-[Sane-baseline](https://github.com/sroy4899/checkedc-lua/tree/sane-baseline) represents code from **Baseline** that has been modified in order to make conversion work. (EX. pruning features that are not yet supported by the tool that are making it crash, etc.). As the tool evolves and these features are supported, changes in **Sane-baseline** will be reverted/modified. 
-
-[Baseline-converted](https://github.com/sroy4899/checkedc-lua/tree/baseline-converted) represents code from **Baseline** that has been fully converted with the latest changes from the conversion tool. Commits to this branch are hashed by the relevant commit from the tool. Conversion on this branch is run without `-alltypes`, so will only support `_Ptr` conversions. 
-
-Similarly, [Sane-baseline-converted](https://github.com/sroy4899/checkedc-lua/tree/sane-baseline-converted) represents code from **Sane-baseline** that has been converterted with the `-alltypes` flag enabled, thereby supporting `_Array_ptr`, `_Nt_array_ptr`, and `_Checked` annotations. 
-
-In order to test the tool, checkout either **Baseline** or **Sane-baseline**, run the tool, and run the script `diffchecker.py` in order to get accurate information about the changes that have happened.
+2. Now run `diff.py`. This will automatically run `update_database.py` to update compile_commands.json, then run the tool, replace the relevant files, and generate descriptive diffs against the branch **Baseline-converted** about the changes the tool has brought about.
