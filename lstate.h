@@ -99,7 +99,7 @@ typedef struct CallInfo {
       const Instruction *savedpc;
     } l;
     struct {  /* only for C functions */
-      lua_KFunction k;  /* continuation in case of yields */
+      _Ptr<int (lua_State *, int , lua_KContext )> k;  /* continuation in case of yields */
       ptrdiff_t old_errfunc;
       lua_KContext ctx;  /* context info. in case of yields */
     } c;
@@ -135,7 +135,7 @@ typedef struct CallInfo {
 ** 'global state', shared by all threads of this state
 */
 typedef struct global_State {
-  lua_Alloc frealloc;  /* function to reallocate memory */
+  _Ptr<void* (void *, void *, size_t , size_t )> frealloc;  /* function to reallocate memory */
   void *ud;         /* auxiliary data to 'frealloc' */
   l_mem totalbytes;  /* number of bytes currently allocated - GCdebt */
   l_mem GCdebt;  /* bytes allocated not yet compensated by the collector */
@@ -149,7 +149,7 @@ typedef struct global_State {
   lu_byte gckind;  /* kind of GC running */
   lu_byte gcrunning;  /* true if GC is running */
   GCObject *allgc;  /* list of all collectable objects */
-  GCObject **sweepgc;  /* current position of sweep in list */
+  _Ptr<GCObject*> sweepgc;  /* current position of sweep in list */
   GCObject *finobj;  /* list of collectable objects with finalizers */
   GCObject *gray;  /* list of gray objects */
   GCObject *grayagain;  /* list of objects to be traversed atomically */
@@ -162,9 +162,9 @@ typedef struct global_State {
   unsigned int gcfinnum;  /* number of finalizers to call in each GC step */
   int gcpause;  /* size of pause between successive GCs */
   int gcstepmul;  /* GC 'granularity' */
-  lua_CFunction panic;  /* to be called in unprotected errors */
+  _Ptr<int (lua_State *)> panic;  /* to be called in unprotected errors */
   struct lua_State *mainthread;
-  const lua_Number *version;  /* pointer to version number */
+  _Ptr<const lua_Number> version;  /* pointer to version number */
   TString *memerrmsg;  /* memory-error message */
   TString *tmname[TM_N];  /* array with tag-method names */
   struct Table *mt[LUA_NUMTAGS];  /* metatables for basic types */
@@ -180,7 +180,7 @@ struct lua_State {
   unsigned short nci;  /* number of items in 'ci' list */
   lu_byte status;
   StkId top;  /* first free slot in the stack */
-  global_State *l_G;
+  _Ptr<global_State> l_G;
   CallInfo *ci;  /* call info for current function */
   const Instruction *oldpc;  /* last pc traced */
   StkId stack_last;  /* last free slot in the stack */
@@ -188,9 +188,9 @@ struct lua_State {
   UpVal *openupval;  /* list of open upvalues in this stack */
   GCObject *gclist;
   struct lua_State *twups;  /* list of threads with open upvalues */
-  struct lua_longjmp *errorJmp;  /* current error recover point */
+  _Ptr<struct lua_longjmp> errorJmp;  /* current error recover point */
   CallInfo base_ci;  /* CallInfo for first level (C calling Lua) */
-  volatile lua_Hook hook;
+  _Ptr<void (lua_State *, _Ptr<lua_Debug> )> hook;
   ptrdiff_t errfunc;  /* current error handling function (stack index) */
   int stacksize;
   int basehookcount;
