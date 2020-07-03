@@ -45,13 +45,12 @@
 #define MINSIZEARRAY	4
 
 
-void *luaM_growaux_ (lua_State *L, void *block, int *size, size_t size_elems,
-                     int limit, const char *what) {
+void * luaM_growaux_(lua_State *L, void *block, _Ptr<int> size, size_t size_elems, int limit, _Ptr<const char> what) {
   void *newblock;
   int newsize;
   if (*size >= limit/2) {  /* cannot double it? */
     if (*size >= limit)  /* cannot grow even a little? */
-      luaG_runerror(L, "too many %s (limit is %d)", what, limit);
+      luaG_runerror(L, ((const char *)"too many %s (limit is %d)"), what, limit);
     newsize = limit;  /* still have at least one free place */
   }
   else {
@@ -66,7 +65,7 @@ void *luaM_growaux_ (lua_State *L, void *block, int *size, size_t size_elems,
 
 
 l_noret luaM_toobig (lua_State *L) {
-  luaG_runerror(L, "memory allocation error: block too big");
+  luaG_runerror(L, ((const char *)"memory allocation error: block too big"));
 }
 
 
@@ -74,9 +73,9 @@ l_noret luaM_toobig (lua_State *L) {
 /*
 ** generic allocation routine.
 */
-void *luaM_realloc_ (lua_State *L, void *block, size_t osize, size_t nsize) {
+void * luaM_realloc_(lua_State *L, void *block, size_t osize, size_t nsize) {
   void *newblock;
-  global_State *g = G(L);
+  _Ptr<global_State> g =  G(L);
   size_t realosize = (block) ? osize : 0;
   lua_assert((realosize == 0) == (block == NULL));
 #if defined(HARDMEMTESTS)

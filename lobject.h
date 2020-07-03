@@ -453,7 +453,7 @@ typedef struct CClosure {
 typedef struct LClosure {
   ClosureHeader;
   struct Proto *p;
-  UpVal *upvals[1];  /* list of upvalues */
+  UpVal* upvals _Checked[1];  /* list of upvalues */
 } LClosure;
 
 

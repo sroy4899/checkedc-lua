@@ -20,7 +20,7 @@
 #include "lzio.h"
 
 
-int luaZ_fill (ZIO *z) {
+int luaZ_fill(_Ptr<ZIO> z) {
   size_t size;
   lua_State *L = z->L;
   const char *buff;
@@ -35,7 +35,7 @@ int luaZ_fill (ZIO *z) {
 }
 
 
-void luaZ_init (lua_State *L, ZIO *z, lua_Reader reader, void *data) {
+void luaZ_init(lua_State *L, _Ptr<ZIO> z, _Ptr<const char* (lua_State *, void *, _Ptr<size_t> )> reader, void *data) {
   z->L = L;
   z->reader = reader;
   z->data = data;
@@ -45,7 +45,7 @@ void luaZ_init (lua_State *L, ZIO *z, lua_Reader reader, void *data) {
 
 
 /* --------------------------------------------------------------- read --- */
-size_t luaZ_read (ZIO *z, void *b, size_t n) {
+size_t luaZ_read(_Ptr<ZIO> z, void *b, size_t n) {
   while (n) {
     size_t m;
     if (z->n == 0) {  /* no bytes in buffer? */

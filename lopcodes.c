@@ -17,7 +17,7 @@
 
 /* ORDER OP */
 
-LUAI_DDEF const char *const luaP_opnames[NUM_OPCODES+1] = {
+LUAI_DDEF const _Nt_array_ptr<const char> luaP_opnames _Checked[48] =  {
   "MOVE",
   "LOADK",
   "LOADKX",
@@ -71,7 +71,7 @@ LUAI_DDEF const char *const luaP_opnames[NUM_OPCODES+1] = {
 
 #define opmode(t,a,b,c,m) (((t)<<7) | ((a)<<6) | ((b)<<4) | ((c)<<2) | (m))
 
-LUAI_DDEF const lu_byte luaP_opmodes[NUM_OPCODES] = {
+LUAI_DDEF const lu_byte luaP_opmodes _Checked[47] =  {
 /*       T  A    B       C     mode		   opcode	*/
   opmode(0, 1, OpArgR, OpArgN, iABC)		/* OP_MOVE */
  ,opmode(0, 1, OpArgK, OpArgN, iABx)		/* OP_LOADK */
