@@ -11,4 +11,22 @@ This repository contains several branches. This branch (**master**) will have C 
 
 Similarly, [Sane-baseline-converted](https://github.com/sroy4899/checkedc-lua/tree/sane-baseline-converted) represents code from **Sane-baseline** that has been converterted with the `-alltypes` flag enabled, thereby supporting `_Array_ptr`, `_Nt_array_ptr`, and `_Checked` annotations. 
 
-In order to test the tool, checkout either **Baseline** or **Sane-baseline**, run the tool, and run the script `diffchecker.py` in order to get accurate information about the changes that have happened.
+In order to test lua, please make sure that you have the package `readline` installed in order to prevent errors. On a linux machine, this can be achieved with 
+```
+sudo apt-get install libreadline-dev
+```
+For OSX: 
+```
+brew install readline
+```
+
+To get started, simply run:
+```
+python3 run.py
+``` 
+It is recommended you open up a separate tab in order to copy paste file locations that the script will prompt you for. After putting in the file locations, the script will automatically: 
+1) checkout baseline, update scripts with your information, run, compile, and diff the tool against baseline-converted 
+2) checkout sane-baseline, update scripts with your information, run and compile the tool
+3) reset the changes to sane-baseline and run the tool with alltypes and diff the tool 
+
+After each of these three "phases", the script will output relevant information about the number of diffs, etc. 
